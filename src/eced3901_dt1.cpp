@@ -55,16 +55,25 @@ class SquareRoutine : public rclcpp::Node
 	{
 		x_now = msg->pose.pose.position.x;
 		y_now = msg->pose.pose.position.y;
-		
+		qx = msg->pose.pose.orientation.x;
+		qy = msg->pose.pose.orientation.y;
+		qz = msg->pose.pose.orientation.z;
+		qw = msg->pose.pose.orientation.w;
 		//RCLCPP_INFO(this->get_logger(), "Odom Acquired.");
 	}
 	
 	void timer_callback()
 	{
 		geometry_msgs::msg::Twist msg;
+		tf2::Quaternion q(qx, qy, qz, qw);
+		tf2::Matrix3x3 m(q);
+		
+		double roll, pitch, yaw;
+		m.getRPY(roll, pitch, yaw);
         	
 		// Calculate distance travelled from initial
-		d_now =	pow( pow(x_now - x_init, 2) + pow(y_now - y_init, 2), 0.5 );
+		d_now = pow( pow(x_now - x_init, 2) + pow(y_now - y_init, 2), 0.5 );
+		a_now = yaw;
 		
 		// Keep moving if not reached last distance target
 		if (d_now < d_aim)
@@ -74,6 +83,14 @@ class SquareRoutine : public rclcpp::Node
 			publisher_->publish(msg);		
 		}
 		// If done step, stop
+		
+		else if (abs(wrap_angle(a_now - a_init)) < (a_aim-(M_PI/72)))
+		{
+			msg.linear.x = 0; //double(rand())/double(RAND_MAX); //fun
+			msg.angular.z = w_vel; //2*double(rand())/double(RAND_MAX) - 1; //fun
+			publisher_->publish(msg);
+		}
+		
 		else
 		{
 			msg.linear.x = 0; //double(rand())/double(RAND_MAX); //fun
@@ -81,11 +98,9 @@ class SquareRoutine : public rclcpp::Node
 			publisher_->publish(msg);
 			last_state_complete = 1;
 		}
-
-
+		
 		sequence_statemachine();		
 		
-
 		//RCLCPP_INFO(this->get_logger(), "Published cmd_vel.");
 	}
 	
@@ -99,13 +114,25 @@ class SquareRoutine : public rclcpp::Node
 			    move_distance(1.0);
 			    break;
 			  case 1:
-			    move_distance(1.0);
+			    rotate_angle(M_PI/2);
 			    break;
 			  case 2:
 			    move_distance(1.0);
 			    break;
 			  case 3:
+			    rotate_angle(M_PI/2);
+			    break; 
+			  case 4:
 			    move_distance(1.0);
+			    break;
+			  case 5:
+			    rotate_angle(M_PI/2);
+			    break;
+			  case 6:
+			    move_distance(1.0);
+			    break;
+			  case 7:
+			    rotate_angle(M_PI/2);
 			    break; 
 			  default:
 			    break;
@@ -118,11 +145,30 @@ class SquareRoutine : public rclcpp::Node
 	{
 		d_aim = distance;
 		x_init = x_now;
-		y_init = y_now;		
-		count_++;		// advance state counter
+		y_init = y_now;
+		count_++;	
 		last_state_complete = 0;	
 	}
 	
+	void rotate_angle(double angle)
+	{
+		a_aim = angle;
+		a_init = a_now;
+		count_++;		// advance state counter
+		last_state_complete = 0;
+	}
+	
+	double wrap_angle(double angle)
+	{
+		angle = fmod(angle + M_PI, 2*M_PI);
+		
+		if (angle <= 0)
+		{
+			angle += 2*M_PI;
+		}
+		
+		return angle - M_PI;
+	}
 
 	// Declaration of subscription_ attribute
 	rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr subscription_;
@@ -134,8 +180,10 @@ class SquareRoutine : public rclcpp::Node
 	rclcpp::TimerBase::SharedPtr timer_;
 	
 	// Declaration of Class Variables
-	double x_vel = 0.2;
+	double x_vel = 0.1, w_vel = 0.1;
 	double x_now = 0, x_init = 0, y_now = 0, y_init = 0;
+	float qx = 0,  qy = 0, qz = 0, qw = 0;
+	float a_now = 0, a_aim = 0, a_init = 0;
 	double d_now = 0, d_aim = 0;
 	size_t count_ = 0;
 	int last_state_complete = 1;
