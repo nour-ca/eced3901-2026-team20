@@ -6,8 +6,9 @@
 
 import os
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, RegisterEventHandler
 from launch.conditions import IfCondition, UnlessCondition
+from launch.event_handlers import OnProcessExit
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
@@ -130,6 +131,31 @@ def generate_launch_description():
                         'params_file': params_file,
                         'default_bt_xml_filename': default_bt_xml_filename,
                         'autostart': autostart}.items())
+  
+  # Run dt1 Program
+  run_dt1_cmd = Node(
+    package='eced3901',
+    executable='dt1',
+    name='dt1',
+    output='screen',
+  )
+
+  # Run map_saver Program
+  run_map_saver_cmd = Node(
+    package='nav2_map_server',
+    executable='map_saver_cli',
+    name='map_saver',
+    output='screen',
+    arguments=['-f','lab4_map']
+  )
+
+  # Set up Event handlers
+  map_saver_after_dt1 = RegisterEventHandler(
+    OnProcessExit(
+      target_action=run_dt1_cmd,
+      on_exit=[run_map_saver_cmd]
+    )
+  )
 
   # Create the launch description and populate
   ld = LaunchDescription()
@@ -151,6 +177,8 @@ def generate_launch_description():
   # Add any actions
   ld.add_action(start_rviz_cmd)
   ld.add_action(start_ros2_navigation_cmd)
+  ld.add_action(run_dt1_cmd)
+  ld.add_action(map_saver_after_dt1)
 
   return ld
 
