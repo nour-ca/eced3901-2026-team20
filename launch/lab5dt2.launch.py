@@ -146,7 +146,7 @@ def generate_launch_description():
     executable='map_saver_cli',
     name='map_saver',
     output='screen',
-    arguments=['-f','/home/olive/ros2_ws/src/eced3901/maps/lab4_map']
+    arguments=['-f',static_map_path]
   )
 
   # Set up Event handlers
