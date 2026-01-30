@@ -134,6 +134,8 @@ class SquareRoutine : public rclcpp::Node
 			  case 7:
 			    rotate_angle(M_PI/2);
 			    break; 
+			  case 8:
+				rclcpp::shutdown();
 			  default:
 			    break;
 			}
