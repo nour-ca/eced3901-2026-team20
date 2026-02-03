@@ -152,7 +152,7 @@ def generate_launch_description():
     executable='map_saver_cli',
     name='map_saver',
     output='screen',
-    arguments=['-f',static_map_path]
+    arguments=['-f',map_yaml_file]
   )
 
   # Set up Event handlers
