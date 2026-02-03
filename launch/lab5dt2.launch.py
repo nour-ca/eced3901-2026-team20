@@ -25,6 +25,7 @@ def generate_launch_description():
   nav2_dir = FindPackageShare(package='nav2_bringup').find('nav2_bringup') 
   nav2_launch_dir = os.path.join(nav2_dir, 'launch') 
   static_map_path = os.path.join(pkg_share, 'maps', 'lab4_map.yaml')
+  map_save_path = os.path.join(pkg_share, 'maps', 'lab4_map')
   nav2_params_path = os.path.join(pkg_share, 'params', 'nav2_params.yaml')
   nav2_bt_path = FindPackageShare(package='nav2_bt_navigator').find('nav2_bt_navigator')
   behavior_tree_xml_path = os.path.join(nav2_bt_path, 'behavior_trees', 'navigate_w_replanning_and_recovery.xml')
@@ -152,7 +153,7 @@ def generate_launch_description():
     executable='map_saver_cli',
     name='map_saver',
     output='screen',
-    arguments=['-f',map_yaml_file]
+    arguments=['-f',map_save_path]
   )
 
   # Set up Event handlers
@@ -187,5 +188,4 @@ def generate_launch_description():
   ld.add_action(map_saver_after_dt1)
 
   return ld
-
-
+  
