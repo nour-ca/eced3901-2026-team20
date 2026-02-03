@@ -6,7 +6,7 @@
 
 import os
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, RegisterEventHandler
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, RegisterEventHandler, TimerAction
 from launch.conditions import IfCondition, UnlessCondition
 from launch.event_handlers import OnProcessExit
 from launch.launch_description_sources import PythonLaunchDescriptionSource
@@ -140,13 +140,19 @@ def generate_launch_description():
     output='screen',
   )
 
+  # Set up delay
+  delayed_dt1 = TimerAction(
+    period=10.0,
+    actions=[run_dt1_cmd]
+  )
+
   # Run map_saver Program
   run_map_saver_cmd = Node(
     package='nav2_map_server',
     executable='map_saver_cli',
     name='map_saver',
     output='screen',
-    arguments=['-f',static_map_path]
+    arguments=['-f',map_yaml_file]
   )
 
   # Set up Event handlers
@@ -177,7 +183,7 @@ def generate_launch_description():
   # Add any actions
   ld.add_action(start_rviz_cmd)
   ld.add_action(start_ros2_navigation_cmd)
-  ld.add_action(run_dt1_cmd)
+  ld.add_action(delayed_dt1)
   ld.add_action(map_saver_after_dt1)
 
   return ld
