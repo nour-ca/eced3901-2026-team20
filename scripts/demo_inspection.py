@@ -26,6 +26,16 @@ is that there are cameras or RFID sensors mounted on the robots
 collecting information about stock quantity and location.
 """
 
+import numpy as np
+
+def get_quaternion_from_euler(roll, pitch, yaw):
+
+  qx = np.sin(roll/2) * np.cos(pitch/2) * np.cos(yaw/2) - np.cos(roll/2) * np.sin(pitch/2) * np.sin(yaw/2)
+  qy = np.cos(roll/2) * np.sin(pitch/2) * np.cos(yaw/2) + np.sin(roll/2) * np.cos(pitch/2) * np.sin(yaw/2)
+  qz = np.cos(roll/2) * np.cos(pitch/2) * np.sin(yaw/2) - np.sin(roll/2) * np.sin(pitch/2) * np.cos(yaw/2)
+  qw = np.cos(roll/2) * np.cos(pitch/2) * np.cos(yaw/2) + np.sin(roll/2) * np.sin(pitch/2) * np.sin(yaw/2)
+ 
+  return [qx, qy, qz, qw]
 
 def main():
     rclpy.init()
@@ -35,21 +45,11 @@ def main():
     # Inspection route, probably read in from a file for a real application
     # from either a map or drive and repeat.
     inspection_route = [
-        [1.0, 0.0],
-        [1.0, 1.0],
-        [0.0, 1.0],
-        [0.0, 0.0]
-        ]
-    
-    # Set our demo's initial pose
-    initial_pose = PoseStamped()
-    initial_pose.header.frame_id = 'map'
-    initial_pose.header.stamp = navigator.get_clock().now().to_msg()
-    initial_pose.pose.position.x = 0.0
-    initial_pose.pose.position.y = 0.0
-    initial_pose.pose.orientation.z = 0.0
-    initial_pose.pose.orientation.w = 1.0
-    navigator.setInitialPose(initial_pose)
+        [1.0, 0.0, 1.57],
+        [1.0, 1.0, 3.14],
+        [0.0, 1.0, -1.57],
+        [0.0, 0.0, 0.0]
+    ]
 
     # Wait for navigation to fully activate
     navigator.waitUntilNav2Active()
@@ -64,8 +64,12 @@ def main():
     for pt in inspection_route:
         inspection_pose.pose.position.x = pt[0]
         inspection_pose.pose.position.y = pt[1]
+        q = get_quaternion_from_euler(0.0, 0.0, pt[2])
+        inspection_pose.pose.orientation.x = q[0]
+        inspection_pose.pose.orientation.y = q[1]
+        inspection_pose.pose.orientation.z = q[2]
+        inspection_pose.pose.orientation.w = q[3]
         inspection_points.append(deepcopy(inspection_pose))
-    nav_start = navigator.get_clock().now()
     navigator.followWaypoints(inspection_points)
 
     # Do something during our route (e.x. AI to analyze stock information or upload to the cloud)
