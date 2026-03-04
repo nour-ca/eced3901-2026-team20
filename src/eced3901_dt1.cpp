@@ -6,20 +6,12 @@ Date: Feb 4, 2023
 License: GNU GPLv3
 */
 
-// Include important C++ header files that provide class
-// templates for useful operations.
-#include <chrono>		// Timer functions
-#include <functional>		// Arithmetic, comparisons, and logical operations
-#include <memory>		// Dynamic memory management
-#include <string>		// String functions
+#include <chrono>
+#include <functional>
+#include <memory>
 #include <cmath>
 
-// ROS Client Library for C++
 #include "rclcpp/rclcpp.hpp"
- 
-// Message types
-#include "std_msgs/msg/string.hpp"
-#include "geometry_msgs/msg/pose.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "nav_msgs/msg/odometry.hpp"
 
@@ -29,184 +21,201 @@ License: GNU GPLv3
 using namespace std::chrono_literals;
 using std::placeholders::_1;
 
-
-// Create the node class named SquareRoutine
-// It inherits rclcpp::Node class attributes and functions
 class SquareRoutine : public rclcpp::Node
 {
-  public:
-	// Constructor creates a node named Square_Routine. 
-	SquareRoutine() : Node("Square_Routine")
-	{
-		// Create the subscription
-		// The callback function executes whenever data is published to the 'topic' topic.
-		subscription_ = this->create_subscription<nav_msgs::msg::Odometry>("odom", 10, std::bind(&SquareRoutine::topic_callback, this, _1));
-          
-		// Create the publisher
-		// Publisher to a topic named "topic". The size of the queue is 10 messages.
-		publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel",10);
-      
-	  	// Create the timer
-	  	timer_ = this->create_wall_timer(100ms, std::bind(&SquareRoutine::timer_callback, this)); 	  
-	}
+public:
+  SquareRoutine() : Node("Square_Routine")
+  {
+    // IMPORTANT for Gazebo/RViz timing:
+    // This makes this node use /clock time if it's available.
+    this->set_parameter(rclcpp::Parameter("use_sim_time", true));
 
-  private:
-	void topic_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
-	{
-		x_now = msg->pose.pose.position.x;
-		y_now = msg->pose.pose.position.y;
-		qx = msg->pose.pose.orientation.x;
-		qy = msg->pose.pose.orientation.y;
-		qz = msg->pose.pose.orientation.z;
-		qw = msg->pose.pose.orientation.w;
-		//RCLCPP_INFO(this->get_logger(), "Odom Acquired.");
-	}
-	
-	void timer_callback()
-	{
-		geometry_msgs::msg::Twist msg;
-		tf2::Quaternion q(qx, qy, qz, qw);
-		tf2::Matrix3x3 m(q);
-		
-		double roll, pitch, yaw;
-		m.getRPY(roll, pitch, yaw);
-        	
-		// Calculate distance travelled from initial
-		d_now = pow( pow(x_now - x_init, 2) + pow(y_now - y_init, 2), 0.5 );
-		a_now = yaw;
-		
-		// Keep moving if not reached last distance target
-		if (d_now < d_aim)
-		{
-			msg.linear.x = x_vel; 
-			msg.angular.z = 0;
-			publisher_->publish(msg);		
-		}
-		// If done step, stop
-		
-		else if (abs(wrap_angle(a_now - a_init)) < (a_aim-(M_PI/72)))
-		{
-			msg.linear.x = 0; //double(rand())/double(RAND_MAX); //fun
-			msg.angular.z = w_vel; //2*double(rand())/double(RAND_MAX) - 1; //fun
-			publisher_->publish(msg);
-		}
-		
-		else
-		{
-			msg.linear.x = 0; //double(rand())/double(RAND_MAX); //fun
-			msg.angular.z = 0; //2*double(rand())/double(RAND_MAX) - 1; //fun
-			publisher_->publish(msg);
-			last_state_complete = 1;
-		}
-		
-		sequence_statemachine();		
-		
-		//RCLCPP_INFO(this->get_logger(), "Published cmd_vel.");
-	}
-	
-	void sequence_statemachine()
-	{
-		if (last_state_complete == 1)
-		{
-			switch(count_) 
-			{
-			  case 0:
-			    move_distance(1.0);
-			    break;
-			  case 1:
-			    rotate_angle(M_PI/2);
-			    break;
-			  case 2:
-			    move_distance(1.0);
-			    break;
-			  case 3:
-			    rotate_angle(M_PI/2);
-			    break; 
-			  case 4:
-			    move_distance(1.0);
-			    break;
-			  case 5:
-			    rotate_angle(M_PI/2);
-			    break;
-			  case 6:
-			    move_distance(1.0);
-			    break;
-			  case 7:
-			    rotate_angle(M_PI/2);
-			    break; 
-			  case 8:
-				rclcpp::shutdown();
-			  default:
-			    break;
-			}
-		}			
-	}
-	
-	// Set the initial position as where robot is now and put new d_aim in place	
-	void move_distance(double distance)
-	{
-		d_aim = distance;
-		x_init = x_now;
-		y_init = y_now;
-		count_++;	
-		last_state_complete = 0;	
-	}
-	
-	void rotate_angle(double angle)
-	{
-		a_aim = angle;
-		a_init = a_now;
-		count_++;		// advance state counter
-		last_state_complete = 0;
-	}
-	
-	double wrap_angle(double angle)
-	{
-		angle = fmod(angle + M_PI, 2*M_PI);
-		
-		if (angle <= 0)
-		{
-			angle += 2*M_PI;
-		}
-		
-		return angle - M_PI;
-	}
+    subscription_ = this->create_subscription<nav_msgs::msg::Odometry>(
+      "odom", 10, std::bind(&SquareRoutine::topic_callback, this, _1));
 
-	// Declaration of subscription_ attribute
-	rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr subscription_;
-         
-	// Declaration of publisher_ attribute      
-	rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher_;
-	
-	// Declaration of the timer_ attribute
-	rclcpp::TimerBase::SharedPtr timer_;
-	
-	// Declaration of Class Variables
-	double x_vel = 0.1, w_vel = 0.1;
-	double x_now = 0, x_init = 0, y_now = 0, y_init = 0;
-	float qx = 0,  qy = 0, qz = 0, qw = 0;
-	float a_now = 0, a_aim = 0, a_init = 0;
-	double d_now = 0, d_aim = 0;
-	size_t count_ = 0;
-	int last_state_complete = 1;
+    publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
+
+    // Faster loop helps reduce late stopping (overshoot)
+    timer_ = this->create_wall_timer(50ms, std::bind(&SquareRoutine::timer_callback, this));
+  }
+
+private:
+  enum class Mode { IDLE, MOVE, ROTATE };
+
+  void topic_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
+  {
+    x_now = msg->pose.pose.position.x;
+    y_now = msg->pose.pose.position.y;
+
+    qx = msg->pose.pose.orientation.x;
+    qy = msg->pose.pose.orientation.y;
+    qz = msg->pose.pose.orientation.z;
+    qw = msg->pose.pose.orientation.w;
+
+    odom_ready = true;
+  }
+
+  void timer_callback()
+  {
+    if (!odom_ready) return;
+
+    geometry_msgs::msg::Twist cmd;
+
+    // Quaternion -> yaw
+    tf2::Quaternion q(qx, qy, qz, qw);
+    tf2::Matrix3x3 m(q);
+    double roll, pitch, yaw;
+    m.getRPY(roll, pitch, yaw);
+    a_now = yaw;
+
+    // Distance traveled since last move start
+    d_now = std::hypot(x_now - x_init, y_now - y_init);
+
+    if (mode_ == Mode::MOVE)
+    {
+      if (d_now < d_aim)
+      {
+        cmd.linear.x = x_vel;
+        cmd.angular.z = 0.0;
+      }
+      else
+      {
+        cmd.linear.x = 0.0;
+        cmd.angular.z = 0.0;
+        last_state_complete = 1;
+      }
+    }
+    else if (mode_ == Mode::ROTATE)
+    {
+      // Error to absolute goal
+      const double err = wrap_angle(a_goal - a_now);
+
+      // --- You asked: "make the check M_PI/72 less than the aim always" ---
+      // Base tolerance is pi/72, but if the target angle is smaller than that,
+      // we force the tolerance to be slightly smaller than the target so tol < |aim| always.
+      const double base_tol = M_PI / 72.0;            // ~2.5 deg
+      const double aim_mag  = std::abs(a_aim);
+      const double tol = (aim_mag > base_tol) ? base_tol : std::max(0.0, aim_mag - 1e-6);
+
+      // --- Overshoot compensation (you said it overshoots by ~10 degrees consistently) ---
+      // Stop early by 10 degrees so the physical robot ends up close to the real goal.
+      const double stop_early = overshoot_comp_rad;   // default 10 deg in radians
+
+      if (std::abs(err) > (tol + stop_early))
+      {
+        cmd.linear.x = 0.0;
+
+        // Constant turn speed at 0.1 rad/s (your request)
+        cmd.angular.z = (err > 0.0) ? w_vel : -w_vel;
+      }
+      else
+      {
+        cmd.linear.x = 0.0;
+        cmd.angular.z = 0.0;
+        last_state_complete = 1;
+      }
+    }
+    else
+    {
+      cmd.linear.x = 0.0;
+      cmd.angular.z = 0.0;
+    }
+
+    publisher_->publish(cmd);
+    sequence_statemachine();
+  }
+
+  void sequence_statemachine()
+  {
+    if (last_state_complete != 1) return;
+
+    switch (count_)
+    {
+      case 0:  move_distance(1.38); break;
+      case 1:  rotate_angle(3 * M_PI / 2); break;
+      case 2:  move_distance(0.47); break;
+      case 3:  rotate_angle(M_PI / 2); break;
+      case 4:  move_distance(0.9); break;
+      case 5:  rotate_angle(M_PI / 2); break;
+      case 6:  move_distance(0.47); break;
+      case 7:  rotate_angle(3 * M_PI / 2); break;
+      case 8:  move_distance(1.0); break;
+      case 9:  rotate_angle(M_PI); break;
+	  case 10: rclcpp::shutdown(); break;
+      default: break;
+    }
+  }
+
+  void move_distance(double distance)
+  {
+    mode_ = Mode::MOVE;
+    d_aim = distance;
+
+    x_init = x_now;
+    y_init = y_now;
+
+    count_++;
+    last_state_complete = 0;
+  }
+
+  void rotate_angle(double angle)
+  {
+    mode_ = Mode::ROTATE;
+    a_aim = angle;
+
+    a_init = a_now;
+    a_goal = wrap_angle(a_init + a_aim);  // absolute target heading (wrapped)
+
+    count_++;
+    last_state_complete = 0;
+  }
+
+  // Wrap to [-pi, pi]
+  double wrap_angle(double angle)
+  {
+    angle = std::fmod(angle + M_PI, 2.0 * M_PI);
+    if (angle < 0.0) angle += 2.0 * M_PI;
+    return angle - M_PI;
+  }
+
+  // ROS interfaces
+  rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr subscription_;
+  rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher_;
+  rclcpp::TimerBase::SharedPtr timer_;
+
+  // Tuning
+  double x_vel = 0.10;        // m/s
+  double w_vel = 0.10;        // rad/s (your request)
+
+  // Stop-early compensation (10 degrees)
+  const double overshoot_comp_rad = 10.0 * M_PI / 180.0;
+
+  // State
+  Mode mode_ = Mode::IDLE;
+  bool odom_ready = false;
+
+  // Pose
+  double x_now = 0.0, y_now = 0.0;
+  double x_init = 0.0, y_init = 0.0;
+
+  double qx = 0.0, qy = 0.0, qz = 0.0, qw = 1.0;
+
+  double a_now = 0.0;
+  double a_init = 0.0;
+  double a_aim  = 0.0;
+  double a_goal = 0.0;
+
+  double d_now = 0.0;
+  double d_aim = 0.0;
+
+  size_t count_ = 0;
+  int last_state_complete = 1;
 };
-    	
 
-
-//------------------------------------------------------------------------------------
-// Main code execution
 int main(int argc, char * argv[])
 {
-	// Initialize ROS2
-	rclcpp::init(argc, argv);
-  
-	// Start node and callbacks
-	rclcpp::spin(std::make_shared<SquareRoutine>());
- 
-	// Stop node 
-	rclcpp::shutdown();
-	return 0;
+  rclcpp::init(argc, argv);
+  rclcpp::spin(std::make_shared<SquareRoutine>());
+  rclcpp::shutdown();
+  return 0;
 }
-
-
-
