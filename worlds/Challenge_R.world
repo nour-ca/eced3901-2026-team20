@@ -989,8 +989,11 @@
     </model>
     <state world_name='default'>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> origin/master
       <sim_time>255 922000000</sim_time>
       <real_time>258 663951865</real_time>
       <wall_time>1772634275 932791587</wall_time>
@@ -1000,6 +1003,9 @@
         <scale>1 1 1</scale>
         <link name='Wall_22'>
           <pose>1.87 0.3 0 0 -0 0</pose>
+=======
+<<<<<<< HEAD
+>>>>>>> origin/master
 =======
 >>>>>>> origin/master
       <sim_time>361 213000000</sim_time>
@@ -1012,6 +1018,10 @@
         <link name='Wall_22'>
           <pose>1.86206 0.268239 0 0 -0 0</pose>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/Oliver-Laptop
+>>>>>>> origin/master
 =======
 >>>>>>> origin/Oliver-Laptop
 >>>>>>> origin/master
@@ -1021,13 +1031,19 @@
         </link>
         <link name='Wall_24'>
 <<<<<<< HEAD
+<<<<<<< HEAD
           <pose>1.86206 -0.851761 0 0 -0 0</pose>
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> origin/master
           <pose>1.87 -0.82 0 0 -0 0</pose>
 =======
           <pose>1.86206 -0.851761 0 0 -0 0</pose>
 >>>>>>> origin/Oliver-Laptop
+<<<<<<< HEAD
+>>>>>>> origin/master
+=======
 >>>>>>> origin/master
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
@@ -1035,13 +1051,19 @@
         </link>
         <link name='Wall_26'>
 <<<<<<< HEAD
+<<<<<<< HEAD
           <pose>-0.272937 -0.291761 0 0 0 -1.5708</pose>
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> origin/master
           <pose>-0.265 -0.26 0 0 0 -1.5708</pose>
 =======
           <pose>-0.272937 -0.291761 0 0 0 -1.5708</pose>
 >>>>>>> origin/Oliver-Laptop
+<<<<<<< HEAD
+>>>>>>> origin/master
+=======
 >>>>>>> origin/master
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
@@ -1049,13 +1071,19 @@
         </link>
         <link name='Wall_28'>
 <<<<<<< HEAD
+<<<<<<< HEAD
           <pose>3.99706 -0.291761 0 0 0 -1.5708</pose>
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> origin/master
           <pose>4.005 -0.26 0 0 0 -1.5708</pose>
 =======
           <pose>3.99706 -0.291761 0 0 0 -1.5708</pose>
 >>>>>>> origin/Oliver-Laptop
+<<<<<<< HEAD
+>>>>>>> origin/master
+=======
 >>>>>>> origin/master
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
@@ -1063,13 +1091,19 @@
         </link>
         <link name='Wall_30'>
 <<<<<<< HEAD
+<<<<<<< HEAD
           <pose>0.946063 -0.596761 0 0 -0 1.5708</pose>
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> origin/master
           <pose>0.954 -0.565 0 0 -0 1.5708</pose>
 =======
           <pose>0.946063 -0.596761 0 0 -0 1.5708</pose>
 >>>>>>> origin/Oliver-Laptop
+<<<<<<< HEAD
+>>>>>>> origin/master
+=======
 >>>>>>> origin/master
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
@@ -1077,13 +1111,19 @@
         </link>
         <link name='Wall_33'>
 <<<<<<< HEAD
+<<<<<<< HEAD
           <pose>1.86106 0.013239 0 0 0 -1.5708</pose>
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> origin/master
           <pose>1.869 0.045 0 0 0 -1.5708</pose>
 =======
           <pose>1.86106 0.013239 0 0 0 -1.5708</pose>
 >>>>>>> origin/Oliver-Laptop
+<<<<<<< HEAD
+>>>>>>> origin/master
+=======
 >>>>>>> origin/master
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
@@ -1091,13 +1131,19 @@
         </link>
         <link name='Wall_35'>
 <<<<<<< HEAD
+<<<<<<< HEAD
           <pose>2.77706 -0.596761 0 0 -0 1.5708</pose>
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> origin/master
           <pose>2.785 -0.565 0 0 -0 1.5708</pose>
 =======
           <pose>2.77706 -0.596761 0 0 -0 1.5708</pose>
 >>>>>>> origin/Oliver-Laptop
+<<<<<<< HEAD
+>>>>>>> origin/master
+=======
 >>>>>>> origin/master
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
@@ -1106,13 +1152,19 @@
       </model>
       <model name='eced3901bot'>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> origin/master
         <pose>0 0 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='back_caster'>
           <pose>-0.09 0 0.015 6.1e-05 0.000351 -0.00153</pose>
           <velocity>6e-06 2.8e-05 -0.004774 0 -0 0</velocity>
+=======
+<<<<<<< HEAD
+>>>>>>> origin/master
 =======
 >>>>>>> origin/master
         <pose>-2e-06 0.001703 -2.1e-05 -5.9e-05 -0.000594 3.5e-05</pose>
@@ -1121,6 +1173,10 @@
           <pose>-0.090011 0.001701 0.014926 0.000198 0.01118 -0.00155</pose>
           <velocity>7.8e-05 2.8e-05 -0.004342 0 -0 0</velocity>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/Oliver-Laptop
+>>>>>>> origin/master
 =======
 >>>>>>> origin/Oliver-Laptop
 >>>>>>> origin/master
@@ -1129,8 +1185,11 @@
         </link>
         <link name='base_footprint'>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> origin/master
           <pose>0 0 0 0 -0 0</pose>
           <velocity>-0 2.9e-05 -0.004921 -1e-06 0.000423 0</velocity>
           <acceleration>2e-06 -0.000516 -9.84244 -0.00063 -0 -0</acceleration>
@@ -1170,6 +1229,9 @@
           <pose>-0 0 -0 0 -0 0</pose>
           <velocity>-0.000103 2.9e-05 -0.004802 1e-06 0.000423 0</velocity>
           <acceleration>-4e-06 -0.001333 -9.60455 0.003538 -0.000142 -1e-06</acceleration>
+=======
+<<<<<<< HEAD
+>>>>>>> origin/master
 =======
 >>>>>>> origin/master
           <pose>-2e-06 0.001703 -2.1e-05 -5.9e-05 -0.000594 3.5e-05</pose>
@@ -1212,6 +1274,10 @@
           <velocity>0 2.8e-05 -0.004802 2e-06 0.005218 0</velocity>
           <acceleration>-1e-06 -0.001333 -9.60456 0.003538 -1.6e-05 -1e-06</acceleration>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/Oliver-Laptop
+>>>>>>> origin/master
 =======
 >>>>>>> origin/Oliver-Laptop
 >>>>>>> origin/master
@@ -1235,13 +1301,19 @@
     <gui fullscreen='0'>
       <camera name='user_camera'>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <pose>0.056149 -0.105698 11.126 3.14159 1.57079 3.14159</pose>
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> origin/master
         <pose>0 0 11.126 3.14159 1.57079 3.14159</pose>
 =======
         <pose>0.056149 -0.105698 11.126 3.14159 1.57079 3.14159</pose>
 >>>>>>> origin/Oliver-Laptop
+<<<<<<< HEAD
+>>>>>>> origin/master
+=======
 >>>>>>> origin/master
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
