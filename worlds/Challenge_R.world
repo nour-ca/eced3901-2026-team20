@@ -988,6 +988,20 @@
       </plugin>
     </model>
     <state world_name='default'>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+      <sim_time>255 922000000</sim_time>
+      <real_time>258 663951865</real_time>
+      <wall_time>1772634275 932791587</wall_time>
+      <iterations>255922</iterations>
+      <model name='Challenge'>
+        <pose>1.87 -0.26 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='Wall_22'>
+          <pose>1.87 0.3 0 0 -0 0</pose>
+=======
+>>>>>>> origin/master
       <sim_time>361 213000000</sim_time>
       <real_time>105 512894663</real_time>
       <wall_time>1772724751 447816587</wall_time>
@@ -997,57 +1011,167 @@
         <scale>1 1 1</scale>
         <link name='Wall_22'>
           <pose>1.86206 0.268239 0 0 -0 0</pose>
+<<<<<<< HEAD
+=======
+>>>>>>> origin/Oliver-Laptop
+>>>>>>> origin/master
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='Wall_24'>
+<<<<<<< HEAD
           <pose>1.86206 -0.851761 0 0 -0 0</pose>
+=======
+<<<<<<< HEAD
+          <pose>1.87 -0.82 0 0 -0 0</pose>
+=======
+          <pose>1.86206 -0.851761 0 0 -0 0</pose>
+>>>>>>> origin/Oliver-Laptop
+>>>>>>> origin/master
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='Wall_26'>
+<<<<<<< HEAD
           <pose>-0.272937 -0.291761 0 0 0 -1.5708</pose>
+=======
+<<<<<<< HEAD
+          <pose>-0.265 -0.26 0 0 0 -1.5708</pose>
+=======
+          <pose>-0.272937 -0.291761 0 0 0 -1.5708</pose>
+>>>>>>> origin/Oliver-Laptop
+>>>>>>> origin/master
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='Wall_28'>
+<<<<<<< HEAD
           <pose>3.99706 -0.291761 0 0 0 -1.5708</pose>
+=======
+<<<<<<< HEAD
+          <pose>4.005 -0.26 0 0 0 -1.5708</pose>
+=======
+          <pose>3.99706 -0.291761 0 0 0 -1.5708</pose>
+>>>>>>> origin/Oliver-Laptop
+>>>>>>> origin/master
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='Wall_30'>
+<<<<<<< HEAD
           <pose>0.946063 -0.596761 0 0 -0 1.5708</pose>
+=======
+<<<<<<< HEAD
+          <pose>0.954 -0.565 0 0 -0 1.5708</pose>
+=======
+          <pose>0.946063 -0.596761 0 0 -0 1.5708</pose>
+>>>>>>> origin/Oliver-Laptop
+>>>>>>> origin/master
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='Wall_33'>
+<<<<<<< HEAD
           <pose>1.86106 0.013239 0 0 0 -1.5708</pose>
+=======
+<<<<<<< HEAD
+          <pose>1.869 0.045 0 0 0 -1.5708</pose>
+=======
+          <pose>1.86106 0.013239 0 0 0 -1.5708</pose>
+>>>>>>> origin/Oliver-Laptop
+>>>>>>> origin/master
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='Wall_35'>
+<<<<<<< HEAD
           <pose>2.77706 -0.596761 0 0 -0 1.5708</pose>
+=======
+<<<<<<< HEAD
+          <pose>2.785 -0.565 0 0 -0 1.5708</pose>
+=======
+          <pose>2.77706 -0.596761 0 0 -0 1.5708</pose>
+>>>>>>> origin/Oliver-Laptop
+>>>>>>> origin/master
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='eced3901bot'>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+        <pose>0 0 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='back_caster'>
+          <pose>-0.09 0 0.015 6.1e-05 0.000351 -0.00153</pose>
+          <velocity>6e-06 2.8e-05 -0.004774 0 -0 0</velocity>
+=======
+>>>>>>> origin/master
         <pose>-2e-06 0.001703 -2.1e-05 -5.9e-05 -0.000594 3.5e-05</pose>
         <scale>1 1 1</scale>
         <link name='back_caster'>
           <pose>-0.090011 0.001701 0.014926 0.000198 0.01118 -0.00155</pose>
           <velocity>7.8e-05 2.8e-05 -0.004342 0 -0 0</velocity>
+<<<<<<< HEAD
+=======
+>>>>>>> origin/Oliver-Laptop
+>>>>>>> origin/master
           <acceleration>2e-06 -0.000775 -9.62342 0 -0 0</acceleration>
           <wrench>0 -4e-06 -0.048117 0 -0 0</wrench>
         </link>
         <link name='base_footprint'>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+          <pose>0 0 0 0 -0 0</pose>
+          <velocity>-0 2.9e-05 -0.004921 -1e-06 0.000423 0</velocity>
+          <acceleration>2e-06 -0.000516 -9.84244 -0.00063 -0 -0</acceleration>
+          <wrench>2e-06 -0.000516 -9.84244 0 -0 0</wrench>
+        </link>
+        <link name='base_link'>
+          <pose>-0 -0 -0 0 -0 0</pose>
+          <velocity>-4.4e-05 2.9e-05 -0.004878 0 0.000423 0</velocity>
+          <acceleration>2e-06 -0.000536 -9.75584 0.001402 5e-06 0</acceleration>
+          <wrench>2e-06 -0.000443 -8.05574 0 -0 0</wrench>
+        </link>
+        <link name='drivewhl_l_link'>
+          <pose>0 0.095 0.035018 1.57526 1.56897 -3.13712</pose>
+          <velocity>1.5e-05 4.1e-05 -0.009507 0.000454 0.000423 1e-06</velocity>
+          <acceleration>-6.4e-05 0.025129 -19.0142 0.501303 0.002561 0.00131</acceleration>
+          <wrench>-2e-06 0.000716 -0.541884 0 -0 0</wrench>
+        </link>
+        <link name='drivewhl_r_link'>
+          <pose>0 -0.095 0.035009 1.57137 1.55834 -3.14101</pose>
+          <velocity>1.5e-05 5e-05 -0.007107 0.000214 0.000423 3e-06</velocity>
+          <acceleration>6.9e-05 0.042533 -14.2147 0.237369 0.001086 0.007108</acceleration>
+          <wrench>2e-06 0.001212 -0.405104 0 -0 0</wrench>
+        </link>
+        <link name='front_caster'>
+          <pose>0.09 0 0.011999 -0.916525 -0.384158 0.192562</pose>
+          <velocity>5e-06 2.8e-05 -0.004728 -0.004684 -0.002329 0</velocity>
+          <acceleration>-1e-06 -0.00106 -9.37961 0 -0 0</acceleration>
+          <wrench>-0 -5e-06 -0.046898 0 -0 0</wrench>
+        </link>
+        <link name='imu_link'>
+          <pose>-0 0 -1e-06 0 -0 0</pose>
+          <velocity>-0 2.8e-05 -0.004715 3e-06 0.000423 0</velocity>
+          <acceleration>-3e-06 -0.000808 -9.43088 0.008236 0.000132 -1e-06</acceleration>
+          <wrench>-3e-06 -0.000808 -9.43088 0 -0 0</wrench>
+        </link>
+        <link name='lidar_link'>
+          <pose>-0 0 -0 0 -0 0</pose>
+          <velocity>-0.000103 2.9e-05 -0.004802 1e-06 0.000423 0</velocity>
+          <acceleration>-4e-06 -0.001333 -9.60455 0.003538 -0.000142 -1e-06</acceleration>
+=======
+>>>>>>> origin/master
           <pose>-2e-06 0.001703 -2.1e-05 -5.9e-05 -0.000594 3.5e-05</pose>
           <velocity>0 2.9e-05 -0.004921 -1e-06 0.005218 0</velocity>
           <acceleration>1e-06 -0.000516 -9.84244 -0.00063 -0 -1e-06</acceleration>
@@ -1087,6 +1211,10 @@
           <pose>-2e-06 0.001703 -2.1e-05 -5.9e-05 -0.000594 3.5e-05</pose>
           <velocity>0 2.8e-05 -0.004802 2e-06 0.005218 0</velocity>
           <acceleration>-1e-06 -0.001333 -9.60456 0.003538 -1.6e-05 -1e-06</acceleration>
+<<<<<<< HEAD
+=======
+>>>>>>> origin/Oliver-Laptop
+>>>>>>> origin/master
           <wrench>-0 -0.000152 -1.09492 0 -0 0</wrench>
         </link>
       </model>
@@ -1106,7 +1234,15 @@
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
+<<<<<<< HEAD
         <pose>0.056149 -0.105698 11.126 3.14159 1.57079 3.14159</pose>
+=======
+<<<<<<< HEAD
+        <pose>0 0 11.126 3.14159 1.57079 3.14159</pose>
+=======
+        <pose>0.056149 -0.105698 11.126 3.14159 1.57079 3.14159</pose>
+>>>>>>> origin/Oliver-Laptop
+>>>>>>> origin/master
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
