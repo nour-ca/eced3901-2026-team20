@@ -115,5 +115,3 @@ def generate_launch_description():
   ld.add_action(start_robot_state_publisher_cmd)
 
   return ld
-
-

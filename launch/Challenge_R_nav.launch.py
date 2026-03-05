@@ -164,5 +164,3 @@ def generate_launch_description():
   ld.add_action(start_wpfollow)
   
   return ld
-
-
