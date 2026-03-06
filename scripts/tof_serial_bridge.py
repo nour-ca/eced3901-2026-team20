@@ -2,57 +2,45 @@
 import serial
 import rclpy
 from rclpy.node import Node
-from sensor_msgs.msg import Range
+from std_msgs.msg import Float32
 
 class ToFSerialBridge(Node):
     def __init__(self):
         super().__init__("tof_serial_bridge")
 
-        self.declare_parameter("port", "/dev/ttyACM0")
+        self.declare_parameter("port", "/dev/serial/by-id/usb-1a86_USB_Serial-if00-port0")
         self.declare_parameter("baud", 115200)
-        self.declare_parameter("frame_left", "tof_left")
-        self.declare_parameter("frame_right", "tof_right")
-        self.declare_parameter("min_m", 0.02)
-        self.declare_parameter("max_m", 4.0)
 
         port = self.get_parameter("port").value
         baud = int(self.get_parameter("baud").value)
 
-        self.pub_l = self.create_publisher(Range, "/tof_left", 10)
-        self.pub_r = self.create_publisher(Range, "/tof_right", 10)
+        self.left_pub = self.create_publisher(Float32, "/tof_left_mm", 10)
+        self.right_pub = self.create_publisher(Float32, "/tof_right_mm", 10)
 
         self.ser = serial.Serial(port, baud, timeout=0.2)
-        self.get_logger().info(f"Reading ToF CSV from {port} @ {baud}")
+        self.get_logger().info(f"Reading serial from {port} at {baud}")
 
-        self.timer = self.create_timer(0.02, self.tick)  # 50 Hz
+        self.timer = self.create_timer(0.02, self.read_serial)
 
-    def _msg(self, frame_id: str, meters: float) -> Range:
-        msg = Range()
-        msg.header.stamp = self.get_clock().now().to_msg()
-        msg.header.frame_id = frame_id
-        msg.radiation_type = Range.INFRARED
-        msg.field_of_view = 0.5
-        msg.min_range = float(self.get_parameter("min_m").value)
-        msg.max_range = float(self.get_parameter("max_m").value)
-        msg.range = meters
-        return msg
-
-    def tick(self):
+    def read_serial(self):
         line = self.ser.readline().decode(errors="ignore").strip()
         if not line:
             return
+
         try:
-            l_s, r_s = line.split(",")
-            l_mm = int(l_s)
-            r_mm = int(r_s)
+            l_str, r_str = line.split(",")
+            l_val = float(l_str)
+            r_val = float(r_str)
         except Exception:
             return
 
-        l_m = max(0.02, min(4.0, l_mm / 1000.0))
-        r_m = max(0.02, min(4.0, r_mm / 1000.0))
+        left_msg = Float32()
+        right_msg = Float32()
+        left_msg.data = l_val
+        right_msg.data = r_val
 
-        self.pub_l.publish(self._msg(self.get_parameter("frame_left").value, l_m))
-        self.pub_r.publish(self._msg(self.get_parameter("frame_right").value, r_m))
+        self.left_pub.publish(left_msg)
+        self.right_pub.publish(right_msg)
 
 def main():
     rclpy.init()
