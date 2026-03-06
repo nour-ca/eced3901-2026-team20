@@ -46,7 +46,7 @@ def main():
     # from either a map or drive and repeat.
     inspection_route = [
         [3.5, -0.12, 0.79],
-        [0.1, 0.1, 0.0]
+        [0.0, 0.0, 0.0]
     ]
 
     # Wait for navigation to fully activate
