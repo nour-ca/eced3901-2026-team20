@@ -33,8 +33,8 @@ amcl:
     sigma_hit: 0.2
     tf_broadcast: true
     transform_tolerance: 0.2
-    update_min_a: 0.02
-    update_min_d: 0.02
+    update_min_a: 0.05
+    update_min_d: 0.05
     z_hit: 0.5
     z_max: 0.05
     z_rand: 0.5
@@ -108,7 +108,7 @@ controller_server:
     min_x_velocity_threshold: 0.001
     min_y_velocity_threshold: 0.5
     min_theta_velocity_threshold: 0.001
-    failure_tolerance: 0.3
+    failure_tolerance: 0.5
     progress_checker_plugin: "progress_checker"
     goal_checker_plugins: ["general_goal_checker"] # "precise_goal_checker"
     controller_plugins: ["FollowPath"]
@@ -128,7 +128,7 @@ controller_server:
       stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
       xy_goal_tolerance: 0.08
-      yaw_goal_tolerance: 0.25
+      yaw_goal_tolerance: 0.2
       stateful: true
     # DWB parameters
     FollowPath:
@@ -152,9 +152,9 @@ controller_server:
       decel_lim_theta: -3.2
       vx_samples: 20
       vy_samples: 5
-      vtheta_samples: 20
+      vtheta_samples: 30
       sim_time: 1.7
-      linear_granularity: 0.05
+      linear_granularity: 0.025
       angular_granularity: 0.025
       transform_tolerance: 0.5
       xy_goal_tolerance: 0.08
@@ -162,7 +162,7 @@ controller_server:
       short_circuit_trajectory_evaluation: True
       stateful: True
       critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
-      BaseObstacle.scale: 0.045
+      BaseObstacle.scale: 0.05
       PathAlign.scale: 50.0
       PathAlign.forward_point_distance: 0.1
       GoalAlign.scale: 24.0
@@ -194,14 +194,14 @@ local_costmap:
       plugins: ["voxel_layer", "inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 8.0
+        cost_scaling_factor: 4.0
         inflation_radius: 0.2
       voxel_layer:
         plugin: "nav2_costmap_2d::VoxelLayer"
         enabled: True
         publish_voxel_map: True
         origin_z: 0.0
-        z_resolution: 0.05
+        z_resolution: 0.03
         z_voxels: 16
         max_obstacle_height: 2.0
         mark_threshold: 0
@@ -235,6 +235,7 @@ global_costmap:
       robot_base_frame: base_footprint
       use_sim_time: True
       robot_radius: 0.11
+      footprint_padding: 0.02
       resolution: 0.02
       track_unknown_space: true
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
@@ -249,15 +250,15 @@ global_costmap:
           marking: True
           data_type: "LaserScan"
           raytrace_max_range: 10.0
-          raytrace_min_range: 0.0
+          raytrace_min_range: 0.05
           obstacle_max_range: 9.5
-          obstacle_min_range: 0.0
+          obstacle_min_range: 0.05
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 5.0
+        cost_scaling_factor: 8.0
         inflation_radius: 0.35
       always_send_full_costmap: True
   global_costmap_client:
@@ -315,6 +316,17 @@ recoveries_server:
     max_rotational_vel: 1.0
     min_rotational_vel: 0.4
     rotational_acc_lim: 3.2
+
+smoother_server:
+  ros__parameters:
+    use_sim_time: True
+    smoother_plugins: ["simple_smoother"]
+
+    simple_smoother:
+      plugin: "nav2_smoother::SimpleSmoother"
+      tolerance: 1.0e-10
+      max_iterations: 1000
+      do_refinement: True
 
 robot_state_publisher:
   ros__parameters:
