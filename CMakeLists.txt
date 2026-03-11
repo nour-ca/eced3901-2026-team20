@@ -53,7 +53,9 @@ install(PROGRAMS
 #  scripts/wp_follower.py
   scripts/demo_inspection.py
   scripts/tof_serial_bridge.py
-  DESTINATION lib/${PROJECT_NAME})
+  scripts/demo_inspection_R.py
+  scripts/demo_inspection_L.py
+
 
 
 

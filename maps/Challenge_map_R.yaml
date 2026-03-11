@@ -1,4 +1,4 @@
-image: lab4_map.pgm
+image: Challenge_map_R.pgm
 mode: trinary
 resolution: 0.05
 origin: [-0.238, -0.797, 0]

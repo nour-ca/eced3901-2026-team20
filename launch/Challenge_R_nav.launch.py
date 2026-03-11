@@ -6,9 +6,8 @@
 
 import os
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, RegisterEventHandler, TimerAction
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.conditions import IfCondition, UnlessCondition
-from launch.event_handlers import OnProcessExit
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
@@ -21,12 +20,11 @@ def generate_launch_description():
   default_launch_dir = os.path.join(pkg_share, 'launch')
   default_model_path = os.path.join(pkg_share, 'models/eced3901bot.urdf')
   robot_name_in_urdf = 'eced3901bot'
-  default_rviz_config_path = os.path.join(pkg_share, 'rviz/nav2_config.rviz')
+  default_rviz_config_path = os.path.join(pkg_share, 'rviz/nav2.rviz')
   nav2_dir = FindPackageShare(package='nav2_bringup').find('nav2_bringup') 
   nav2_launch_dir = os.path.join(nav2_dir, 'launch') 
-  static_map_path = os.path.join(pkg_share, 'maps', 'lab4_map.yaml')
-  map_save_path = os.path.join(pkg_share, 'maps', 'lab4_map')
-  nav2_params_path = os.path.join(pkg_share, 'params', 'nav2_params_original_backup.yaml')
+  static_map_path = os.path.join(pkg_share, 'maps', 'Challenge_map_R.yaml')
+  nav2_params_path = os.path.join(pkg_share, 'params', 'nav2_params.yaml')
   nav2_bt_path = FindPackageShare(package='nav2_bt_navigator').find('nav2_bt_navigator')
   behavior_tree_xml_path = os.path.join(nav2_bt_path, 'behavior_trees', 'navigate_w_replanning_and_recovery.xml')
   
@@ -96,7 +94,7 @@ def generate_launch_description():
 
   declare_slam_cmd = DeclareLaunchArgument(
     name='slam',
-    default_value='True',
+    default_value='False',
     description='Whether to run SLAM')
     
   declare_use_rviz_cmd = DeclareLaunchArgument(
@@ -132,38 +130,17 @@ def generate_launch_description():
                         'params_file': params_file,
                         'default_bt_xml_filename': default_bt_xml_filename,
                         'autostart': autostart}.items())
+
   
-  # Run dt1 Program
-  run_dt1_cmd = Node(
+  # Launch WP follower
+  start_wpfollow = Node(
+    condition=IfCondition(use_rviz),
     package='eced3901',
-    executable='dt1',
-    name='dt1',
-    output='screen',
-  )
-
-  # Set up delay
-  delayed_dt1 = TimerAction(
-    period=10.0,
-    actions=[run_dt1_cmd]
-  )
-
-  # Run map_saver Program
-  run_map_saver_cmd = Node(
-    package='nav2_map_server',
-    executable='map_saver_cli',
-    name='map_saver',
-    output='screen',
-    arguments=['-f',map_save_path]
-  )
-
-  # Set up Event handlers
-  map_saver_after_dt1 = RegisterEventHandler(
-    OnProcessExit(
-      target_action=run_dt1_cmd,
-      on_exit=[run_map_saver_cmd]
-    )
-  )
-
+    executable='demo_inspection_R.py',
+    name='wp_follower',
+    output='screen') 
+  
+  
   # Create the launch description and populate
   ld = LaunchDescription()
 
@@ -184,8 +161,6 @@ def generate_launch_description():
   # Add any actions
   ld.add_action(start_rviz_cmd)
   ld.add_action(start_ros2_navigation_cmd)
-  ld.add_action(delayed_dt1)
-  ld.add_action(map_saver_after_dt1)
-
-  return ld
+  ld.add_action(start_wpfollow)
   
+  return ld
