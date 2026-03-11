@@ -132,13 +132,13 @@ private:
     switch (count_)
     {
       case 0:  move_distance(1.38); break;
-      case 1:  rotate_angle(3 * M_PI / 2); break;
+      case 1:  rotate_angle(M_PI / 2); break;
       case 2:  move_distance(0.47); break;
-      case 3:  rotate_angle(M_PI / 2); break;
+      case 3:  rotate_angle(3 * M_PI / 2); break;
       case 4:  move_distance(0.9); break;
-      case 5:  rotate_angle(M_PI / 2); break;
+      case 5:  rotate_angle(3 * M_PI / 2); break;
       case 6:  move_distance(0.47); break;
-      case 7:  rotate_angle(3 * M_PI / 2); break;
+      case 7:  rotate_angle(M_PI / 2); break;
       case 8:  move_distance(1.0); break;
       case 9:  rotate_angle(M_PI); break;
 	  case 10: rclcpp::shutdown(); break;
