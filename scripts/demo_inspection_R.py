@@ -92,8 +92,8 @@ def main():
         print('Inspection of shelving failed! Returning to start...')
 
     # go back to start
-    initial_pose.header.stamp = navigator.get_clock().now().to_msg()
-    go_to_pose_task=navigator.goToPose(initial_pose)
+    # initial_pose.header.stamp = navigator.get_clock().now().to_msg()
+    # go_to_pose_task=navigator.goToPose(initial_pose)
     while not navigator.isTaskComplete():
         pass
 
