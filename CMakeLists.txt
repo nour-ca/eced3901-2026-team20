@@ -53,6 +53,7 @@ install(PROGRAMS
   scripts/tof_serial_bridge.py
   scripts/demo_inspection_R.py
   scripts/demo_inspection_L.py
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 
