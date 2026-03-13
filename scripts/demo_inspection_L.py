@@ -45,11 +45,7 @@ def main():
     # Inspection route, probably read in from a file for a real application
     # from either a map or drive and repeat.
     inspection_route = [
-        [3.42, -0.1, 0.0],
-        [3.25, -0.1, 3.14],
-        [3.78, 0.25, -1.57],
-        [3.73, 0.25, 1.57],
-        [0.0, 0.0, 0.0]
+        [3.63, -0.1, 0.0]
     ]
 
     # Wait for navigation to fully activate
