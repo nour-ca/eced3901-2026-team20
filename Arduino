@@ -1,0 +1,96 @@
+#include <Wire.h>
+#include <VL53L1X.h>
+
+VL53L1X sensor;
+
+#define TCAADDR 0x70
+
+// Safety (CORLEGS) LEDs
+#define SAFE_FRONT 2
+#define SAFE_FRONT_LEFT 3
+#define SAFE_FRONT_RIGHT 4
+#define SAFE_BACK 5
+
+// Threat traffic light LEDs pins
+#define TRAFFIC_GREEN 6   // FAR (danger)
+#define TRAFFIC_YELLOW 7  // MID (caution)
+#define TRAFFIC_RED 8     // CLOSE (safe)
+
+// Multiplexer (Expansion module) select
+void tcaSelect(uint8_t i) {
+  if (i > 7) return;
+  Wire.beginTransmission(TCAADDR);
+  Wire.write(1 << i);
+  Wire.endTransmission();
+}
+
+// Read all sensors distance
+int readSensor(uint8_t channel) {
+  tcaSelect(channel);
+  sensor.init();
+  sensor.setDistanceMode(VL53L1X::Long);
+  sensor.startContinuous(20);
+  delay(50);
+  int distance = sensor.read();
+  sensor.stopContinuous();
+  return distance;
+}
+
+void setup() {
+  Wire.begin();
+  Serial.begin(9600);
+
+  // Setup safety (CORLEGS) LEDs
+  pinMode(SAFE_FRONT, OUTPUT);
+  pinMode(SAFE_FRONT_LEFT, OUTPUT);
+  pinMode(SAFE_FRONT_RIGHT, OUTPUT);
+  pinMode(SAFE_BACK, OUTPUT);
+
+  // Setup traffic light pins
+  pinMode(TRAFFIC_GREEN, OUTPUT);
+  pinMode(TRAFFIC_YELLOW, OUTPUT);
+  pinMode(TRAFFIC_RED, OUTPUT);
+
+  // Turn on safety LEDs always
+  digitalWrite(SAFE_FRONT, HIGH);
+  digitalWrite(SAFE_FRONT_LEFT, HIGH);
+  digitalWrite(SAFE_FRONT_RIGHT, HIGH);
+  digitalWrite(SAFE_BACK, HIGH);
+}
+
+void loop() {
+  int d1 = readSensor(1); // Left
+  int d2 = readSensor(2); // Right
+  int d3 = readSensor(3); // Back
+
+  // Determine closest distance among 3 sensors
+  int closest = min(min(d1, d2), d3);
+
+  // Print all readings to Serial Monitor
+  Serial.print("Left Sensor: ");
+  Serial.print(d1);
+  Serial.print(" mm, Right Sensor: ");
+  Serial.print(d2);
+  Serial.print(" mm, Back Sensor: ");
+  Serial.print(d3);
+  Serial.print(" mm, Closest: ");
+  Serial.println(closest);
+
+  // Turn off all traffic light LEDs first
+  digitalWrite(TRAFFIC_GREEN, LOW);
+  digitalWrite(TRAFFIC_YELLOW, LOW);
+  digitalWrite(TRAFFIC_RED, LOW);
+
+  // Updated distance thresholds (2 ft / 4 ft)
+  if (closest > 1219) {        // > 4 ft → Green
+    digitalWrite(TRAFFIC_GREEN, HIGH);
+  }
+  else if (closest > 610) {    // 2–4 ft → Yellow
+    digitalWrite(TRAFFIC_YELLOW, HIGH);
+  }
+  else {                       // < 2 ft → Red
+    digitalWrite(TRAFFIC_RED, HIGH);
+  }
+
+  delay(200);
+}
