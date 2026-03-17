@@ -45,7 +45,7 @@ def main():
     # Inspection route, probably read in from a file for a real application
     # from either a map or drive and repeat.
     inspection_route = [
-        [3.60, -0.1, 0.0],
+        [3.45, 0.0, 0.0],
         [0.0, 0.0, 0.0]
     ]
 
