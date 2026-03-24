@@ -56,7 +56,7 @@ def main():
 
     # Waypoints: [x, y, yaw]
     inspection_route = [
-        [3.45, 0.0, 0.0 ]
+        [3.45, 0.0, 0.0]
     ]
 
     # Wait for Nav2 to fully activate
@@ -104,7 +104,7 @@ def main():
             port='/dev/ttyUSB4',   # change this if needed
             baud=115200,
             command='MOVE_BOTH\n'
-        )
+        )        
 
     elif result == TaskResult.CANCELED:
         print('Inspection was canceled.')
