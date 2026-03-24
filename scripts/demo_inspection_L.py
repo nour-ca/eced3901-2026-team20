@@ -56,7 +56,7 @@ def main():
 
     # Waypoints: [x, y, yaw]
     inspection_route = [
-        [3.45, 0.0, 0.0]
+        [3.31, 0.0, 0.0]
     ]
 
     # Wait for Nav2 to fully activate

@@ -159,7 +159,7 @@ void loop() {
     setColor(0, 255, 255);           // BLUE
   }
   else if (closest >= 610) {       // 2–4 ft
-    setColor(255, 255, 0);         // YELLOW
+    setColor(255, 70, 0);         // YELLOW
   }
   else {                           // <2 ft
     setColor(255, 0, 255);       // PINK

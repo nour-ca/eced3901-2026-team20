@@ -189,13 +189,13 @@ local_costmap:
       width: 10
       height: 10
       resolution: 0.02
-      footprint: "[[0.23, 0.13], [0.23, -0.13], [-0.13, -0.13], [-0.13, 0.13]]"
+      footprint: "[[0.23, 0.115], [0.23, -0.115], [-0.13, -0.115], [-0.13, 0.115]]"
       footprint_padding: 0.005
       plugins: ["voxel_layer", "inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 5.0
-        inflation_radius: 0.2
+        inflation_radius: 0.185
       voxel_layer:
         plugin: "nav2_costmap_2d::VoxelLayer"
         enabled: True
@@ -234,7 +234,7 @@ global_costmap:
       global_frame: map
       robot_base_frame: base_footprint
       use_sim_time: True
-      footprint: "[[0.23, 0.13], [0.23, -0.13], [-0.13, -0.13], [-0.13, 0.13]]"
+      footprint: "[[0.23, 0.115], [0.23, -0.115], [-0.13, -0.115], [-0.13, 0.115]]"
       footprint_padding: 0.005
       resolution: 0.02
       track_unknown_space: true
@@ -259,7 +259,7 @@ global_costmap:
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 8.0
-        inflation_radius: 0.27
+        inflation_radius: 0.26
       always_send_full_costmap: True
   global_costmap_client:
     ros__parameters:
