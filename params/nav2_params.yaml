@@ -189,7 +189,7 @@ local_costmap:
       width: 10
       height: 10
       resolution: 0.02
-      footprint: "[[0.16, 0.12], [0.16, -0.12], [-0.13, -0.12], [-0.13, 0.12]]"
+      footprint: "[[0.19, 0.12], [0.19, -0.12], [-0.13, -0.12], [-0.13, 0.12]]"
       footprint_padding: 0.01
       plugins: ["voxel_layer", "inflation_layer"]
       inflation_layer:
@@ -234,7 +234,7 @@ global_costmap:
       global_frame: map
       robot_base_frame: base_footprint
       use_sim_time: True
-      footprint: "[[0.16, 0.12], [0.16, -0.12], [-0.13, -0.12], [-0.13, 0.12]]"
+      footprint: "[[0.19, 0.12], [0.19, -0.12], [-0.13, -0.12], [-0.13, 0.12]]"
       footprint_padding: 0.01
       resolution: 0.02
       track_unknown_space: true
